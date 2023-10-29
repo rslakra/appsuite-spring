@@ -55,7 +55,7 @@
         <httpasyncclient.version>4.1.5</httpasyncclient.version>
 
         <!-- guava -->
-        <guava.version>31.1-jre</guava.version>
+        <guava.version>32.0.0-jre</guava.version>
 
         <liquibase.version>4.19.0</liquibase.version>
         <mysql.version>8.0.32</mysql.version>
