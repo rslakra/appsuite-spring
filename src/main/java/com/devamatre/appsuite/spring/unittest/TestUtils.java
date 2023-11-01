@@ -1,7 +1,7 @@
 package com.devamatre.appsuite.spring.unittest;
 
 
-import com.devamatre.framework.core.BeanUtils;
+import com.devamatre.appsuite.core.BeanUtils;
 import org.mockito.ArgumentMatcher;
 import org.mockito.internal.matchers.InstanceOf;
 import org.mockito.internal.progress.ThreadSafeMockingProgress;

@@ -1,6 +1,6 @@
 package com.devamatre.appsuite.spring.persistence.entity;
 
-import com.devamatre.framework.core.ToString;
+import com.devamatre.appsuite.core.ToString;
 import com.devamatre.appsuite.spring.persistence.listener.BaseEntityListener;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

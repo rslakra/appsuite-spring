@@ -1,7 +1,7 @@
 package com.devamatre.appsuite.spring.controller.web;
 
 import com.devamatre.appsuite.spring.filter.Filter;
-import com.devamatre.framework.core.Payload;
+import com.devamatre.appsuite.core.Payload;
 import com.devamatre.appsuite.spring.persistence.Operation;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;

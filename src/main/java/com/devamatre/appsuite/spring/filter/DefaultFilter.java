@@ -1,6 +1,6 @@
 package com.devamatre.appsuite.spring.filter;
 
-import com.devamatre.framework.core.Payload;
+import com.devamatre.appsuite.core.Payload;
 
 import java.util.Map;
 

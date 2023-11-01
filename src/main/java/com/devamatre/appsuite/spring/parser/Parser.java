@@ -1,6 +1,6 @@
 package com.devamatre.appsuite.spring.parser;
 
-import com.devamatre.framework.core.BeanUtils;
+import com.devamatre.appsuite.core.BeanUtils;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;

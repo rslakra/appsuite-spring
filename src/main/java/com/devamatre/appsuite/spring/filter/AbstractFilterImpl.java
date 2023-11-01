@@ -1,7 +1,7 @@
 package com.devamatre.appsuite.spring.filter;
 
-import com.devamatre.framework.core.BeanUtils;
-import com.devamatre.framework.core.Payload;
+import com.devamatre.appsuite.core.BeanUtils;
+import com.devamatre.appsuite.core.Payload;
 
 import java.util.Arrays;
 import java.util.Map;

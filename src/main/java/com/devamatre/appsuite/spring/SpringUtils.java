@@ -2,7 +2,7 @@ package com.devamatre.appsuite.spring;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.devamatre.framework.core.BeanUtils;
+import com.devamatre.appsuite.core.BeanUtils;
 import com.devamatre.appsuite.spring.payload.dto.AbstractEntityDTO;
 import org.springframework.ui.Model;
 import org.springframework.validation.FieldError;

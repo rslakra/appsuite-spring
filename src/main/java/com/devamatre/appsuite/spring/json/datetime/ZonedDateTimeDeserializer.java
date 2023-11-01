@@ -1,6 +1,6 @@
 package com.devamatre.appsuite.spring.json.datetime;
 
-import com.devamatre.framework.core.TimeUtils;
+import com.devamatre.appsuite.core.TimeUtils;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;

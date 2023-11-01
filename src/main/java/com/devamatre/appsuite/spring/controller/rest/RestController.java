@@ -2,9 +2,9 @@ package com.devamatre.appsuite.spring.controller.rest;
 
 import com.devamatre.appsuite.spring.exception.InvalidRequestException;
 import com.devamatre.appsuite.spring.filter.Filter;
-import com.devamatre.framework.core.BeanUtils;
+import com.devamatre.appsuite.core.BeanUtils;
 import com.devamatre.appsuite.spring.persistence.Operation;
-import com.devamatre.framework.core.Payload;
+import com.devamatre.appsuite.core.Payload;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

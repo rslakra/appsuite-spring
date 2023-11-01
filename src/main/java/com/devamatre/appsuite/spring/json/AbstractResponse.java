@@ -1,6 +1,6 @@
 package com.devamatre.appsuite.spring.json;
 
-import com.devamatre.framework.core.BeanUtils;
+import com.devamatre.appsuite.core.BeanUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

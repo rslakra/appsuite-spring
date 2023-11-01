@@ -2,7 +2,7 @@ package com.devamatre.appsuite.spring.service;
 
 import com.devamatre.appsuite.spring.filter.Filter;
 import com.devamatre.appsuite.spring.persistence.Operation;
-import com.devamatre.framework.core.BeanUtils;
+import com.devamatre.appsuite.core.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;

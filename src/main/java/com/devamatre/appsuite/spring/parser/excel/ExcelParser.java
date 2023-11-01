@@ -1,7 +1,7 @@
 package com.devamatre.appsuite.spring.parser.excel;
 
 import com.devamatre.appsuite.spring.parser.Parser;
-import com.devamatre.framework.core.BeanUtils;
+import com.devamatre.appsuite.core.BeanUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;

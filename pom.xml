@@ -10,7 +10,7 @@
         <!-- lookup parent from repository -->
         <relativePath/>
     </parent>
-    <!-- framework -->
+    <!-- appsuite-spring -->
     <groupId>com.devamatre.appsuite</groupId>
     <artifactId>appsuite-spring</artifactId>
     <version>${revision}</version>
@@ -20,29 +20,35 @@
 
     <!-- Properties -->
     <properties>
+        <!-- revision -->
+        <revision>0.0.0</revision>
+
         <!-- sourceEncoding &  outputEncoding -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- java version -->
         <java.version>11</java.version>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <revision>0.0.0</revision>
-
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
         <!-- maven plugins -->
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
+        <maven-release-plugin.version>3.0.0</maven-release-plugin.version>
 
         <!-- checkstyle -->
         <code-styles.dir>https://raw.githubusercontent.com/rslakra/code-styles/master</code-styles.dir>
         <checkstyle.threshold>0</checkstyle.threshold>
 
+        <!-- logging -->
+        <slf4j-api.version>2.0.6</slf4j-api.version>
+        <!--<slf4j-log4j12.version>2.0.6</slf4j-log4j12.version>-->
+
         <!-- lombok -->
         <lombok.version>1.18.28</lombok.version>
 
         <!-- appsuite-core -->
-        <appsuite-core.version>0.0.23</appsuite-core.version>
+        <appsuite-core.version>0.0.4</appsuite-core.version>
 
         <!-- swagger -->
         <swagger.skip>false</swagger.skip>
@@ -85,8 +91,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.devamatre.framework</groupId>
-            <artifactId>appsuite-framework-core</artifactId>
+            <groupId>com.devamatre.appsuite</groupId>
+            <artifactId>appsuite-core</artifactId>
             <version>${appsuite-core.version}</version>
         </dependency>
 
@@ -207,18 +213,16 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>${maven-checkstyle-plugin.version}</version>
-                <configuration>
-                    <configLocation>${code-styles.dir}/styles.xml</configLocation>
-                    <propertiesLocation>${code-styles.dir}/checkstyle.properties</propertiesLocation>
-                </configuration>
                 <executions>
                     <execution>
+                        <id>default</id>
                         <phase>process-classes</phase>
                         <goals>
                             <goal>check</goal>
                         </goals>
                         <configuration>
                             <configLocation>${code-styles.dir}/styles.xml</configLocation>
+                            <propertiesLocation>${code-styles.dir}/checkstyle.properties</propertiesLocation>
                             <logViolationsToConsole>true</logViolationsToConsole>
                             <maxAllowedViolations>${checkstyle.threshold}</maxAllowedViolations>
                         </configuration>
