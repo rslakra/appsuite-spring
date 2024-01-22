@@ -33,8 +33,8 @@ public class AopUtilsTest {
         Signature mockSignature = Mockito.mock(Signature.class);
         Mockito.when(mockSignature.getName()).thenReturn("getAll");
         Mockito.when(joinPointMock.getSignature()).thenReturn(mockSignature);
-//        Method method = AopUtils.findMethod(joinPointMock);
-//        assertNotNull(method);
+// Method method = AopUtils.findMethod(joinPointMock);
+// assertNotNull(method);
         LOGGER.debug("-testFindMethod()");
     }
 
@@ -48,7 +48,7 @@ public class AopUtilsTest {
     public void testIsLocalHostRequest() {
         LOGGER.debug("+testIsLocalHostRequest()");
         HttpServletRequest mockRequest = Mockito.mock(HttpServletRequest.class);
-//        assertTrue(AopUtils.isLocalHostRequest(mockRequest));
+// assertTrue(AopUtils.isLocalHostRequest(mockRequest));
         LOGGER.debug("-testIsLocalHostRequest()");
     }
 

@@ -22,13 +22,13 @@ package com.devamatre.appsuite.spring.context;
 //     */
 //    @Override
 //    public UserDetails loadUserByUsername(String userName)
-//        throws NoRecordFoundException {
-//        User user = userRepository.getByEmail(userName);
-//        if (user == null) {
+// throws NoRecordFoundException {
+// User user = userRepository.getByEmail(userName);
+// if (user == null) {
 //            throw new NoRecordFoundException("Could not find user!");
-//        }
+// }
 //
-//        return new UserDetailsImpl(user);
+// return new UserDetailsImpl(user);
 //    }
 //
 //}

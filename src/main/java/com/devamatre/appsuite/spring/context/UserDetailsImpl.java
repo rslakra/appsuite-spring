@@ -20,19 +20,19 @@ package com.devamatre.appsuite.spring.context;
 //     * @param user
 //     */
 //    public UserDetailsImpl(User user) {
-//        this.user = user;
+// this.user = user;
 //    }
 //
 //
 //    @Override
 //    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        Set<Role> roles = user.getRoles();
-//        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-//        for (Role role : roles) {
+// Set<Role> roles = user.getRoles();
+// List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+// for (Role role : roles) {
 //            authorities.add(new SimpleGrantedAuthority(role.getName()));
-//        }
+// }
 //
-//        return authorities;
+// return authorities;
 //    }
 //
 //    /**
@@ -40,7 +40,7 @@ package com.devamatre.appsuite.spring.context;
 //     */
 //    @Override
 //    public String getPassword() {
-//        return user.getPassword();
+// return user.getPassword();
 //    }
 //
 //    /**
@@ -48,7 +48,7 @@ package com.devamatre.appsuite.spring.context;
 //     */
 //    @Override
 //    public String getUsername() {
-//        return user.getEmail();
+// return user.getEmail();
 //    }
 //
 //    /**
@@ -56,7 +56,7 @@ package com.devamatre.appsuite.spring.context;
 //     */
 //    @Override
 //    public boolean isAccountNonExpired() {
-//        return true;
+// return true;
 //    }
 //
 //    /**
@@ -64,7 +64,7 @@ package com.devamatre.appsuite.spring.context;
 //     */
 //    @Override
 //    public boolean isAccountNonLocked() {
-//        return true;
+// return true;
 //    }
 //
 //    /**
@@ -72,7 +72,7 @@ package com.devamatre.appsuite.spring.context;
 //     */
 //    @Override
 //    public boolean isCredentialsNonExpired() {
-//        return true;
+// return true;
 //    }
 //
 //    /**
@@ -80,7 +80,7 @@ package com.devamatre.appsuite.spring.context;
 //     */
 //    @Override
 //    public boolean isEnabled() {
-//        return user.getActive();
+// return user.getActive();
 //    }
 //
 //}

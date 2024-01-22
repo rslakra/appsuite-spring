@@ -20,14 +20,14 @@ public class AuditorAwareImpl implements AuditorAware<String> {
 //     * @return
 //     */
 //    public static Authentication getAuthentication() {
-//        return SecurityContextHolder.getContext().getAuthentication();
+// return SecurityContextHolder.getContext().getAuthentication();
 //    }
 //
 //    /**
 //     * @return
 //     */
 //    public static boolean isAuthenticated() {
-//        return getAuthentication().isAuthenticated();
+// return getAuthentication().isAuthenticated();
 //    }
 
     /**
@@ -38,8 +38,8 @@ public class AuditorAwareImpl implements AuditorAware<String> {
      */
     @Override
     public Optional<String> getCurrentAuditor() {
-//        Authentication authentication = getAuthentication();
-//        return (authentication != null ? Optional.of(authentication.getPrincipal().toString()) : UNKNOWN);
+// Authentication authentication = getAuthentication();
+// return (authentication != null ? Optional.of(authentication.getPrincipal().toString()) : UNKNOWN);
         return ANONYMOUS;
     }
 }

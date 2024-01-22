@@ -154,11 +154,11 @@ public final class ApiRestClient extends RestTemplate {
         return super.getForObject(toUriString(pathSegment), responseType, uriParams);
 
         // 2. getForEntity(url, responseType)
-//        return Arrays.asList(restService.getForEntity(USERS, UserDTO[].class).getBody());
+// return Arrays.asList(restService.getForEntity(USERS, UserDTO[].class).getBody());
 
         // 3. exchange(url, method, requestEntity, responseType)
-//        final HttpEntity<String> httpEntity = new HttpEntity<>(BaseService.newHttpHeaders());
-//        return Arrays.asList(restService.exchange(USERS, HttpMethod.GET, httpEntity, UserDTO[].class).getBody());
+// final HttpEntity<String> httpEntity = new HttpEntity<>(BaseService.newHttpHeaders());
+// return Arrays.asList(restService.exchange(USERS, HttpMethod.GET, httpEntity, UserDTO[].class).getBody());
     }
 
     /**

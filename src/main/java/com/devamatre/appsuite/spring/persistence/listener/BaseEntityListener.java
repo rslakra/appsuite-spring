@@ -49,8 +49,8 @@ public class BaseEntityListener<T> {
     @Transactional(Transactional.TxType.MANDATORY)
     public void performOperation(Operation operation, Object entity) {
         LOGGER.debug("performOperation({}, {})", operation, entity);
-//        EntityManager entityManager = AppContextAware.getBean(EntityManager.class);
-//        entityManager.persist(new FileHistory(file, operation));
+// EntityManager entityManager = AppContextAware.getBean(EntityManager.class);
+// entityManager.persist(new FileHistory(file, operation));
     }
 
 }
