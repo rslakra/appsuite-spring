@@ -48,7 +48,7 @@
         <lombok.version>1.18.28</lombok.version>
 
         <!-- appsuite-core -->
-        <appsuite-core.version>0.0.4</appsuite-core.version>
+        <appsuite-core.version>0.0.25</appsuite-core.version>
 
         <!-- swagger -->
         <swagger.skip>false</swagger.skip>
