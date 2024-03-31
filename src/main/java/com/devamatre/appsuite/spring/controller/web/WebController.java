@@ -2,7 +2,7 @@ package com.devamatre.appsuite.spring.controller.web;
 
 import com.devamatre.appsuite.spring.filter.Filter;
 import com.devamatre.appsuite.core.Payload;
-import com.devamatre.appsuite.spring.persistence.Operation;
+import com.devamatre.appsuite.spring.persistence.ServiceOperation;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -50,11 +50,11 @@ public interface WebController<T, ID extends Serializable> {
     public String filter(Model model, Map<String, Object> allParams);
 
     /**
-     * @param operation
+     * @param serviceOperation
      * @param t
      * @return
      */
-    public default T validate(Operation operation, T t) {
+    public default T validate(ServiceOperation serviceOperation, T t) {
         return t;
     }
 

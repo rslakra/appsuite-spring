@@ -1,8 +1,8 @@
 package com.devamatre.appsuite.spring.service;
 
-import com.devamatre.appsuite.spring.filter.Filter;
-import com.devamatre.appsuite.spring.persistence.Operation;
 import com.devamatre.appsuite.core.BeanUtils;
+import com.devamatre.appsuite.spring.filter.Filter;
+import com.devamatre.appsuite.spring.persistence.ServiceOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -19,7 +19,7 @@ import java.util.List;
 public interface AbstractService<T, ID extends Serializable> {
 
     String[] IGNORED_PROPERTIES = {
-        "id", "createdOn", "createdAt", "createdBy", "updatedOn", "updatedAt", "updatedBy"
+            "id", "createdOn", "createdAt", "createdBy", "updatedOn", "updatedAt", "updatedBy"
     };
 
     /**
@@ -40,7 +40,7 @@ public interface AbstractService<T, ID extends Serializable> {
      * @param t
      * @return
      */
-    public T validate(Operation operation, T t);
+    public T validate(ServiceOperation serviceOperation, T t);
 
     /**
      * Creates the <code>T</code> object.
@@ -79,7 +79,7 @@ public interface AbstractService<T, ID extends Serializable> {
      * @param filter
      * @return
      */
-    public List<T> getByFilter(Filter filter);
+    public List<T> getByFilter(Filter<T> filter);
 
     /**
      * Returns the pageable <code>T</code> object by <code>pageable</code> filter.
@@ -87,7 +87,7 @@ public interface AbstractService<T, ID extends Serializable> {
      * @param pageable
      * @return
      */
-    public Page<T> getByFilter(Filter filter, Pageable pageable);
+    public Page<T> getByFilter(Filter<T> filter, Pageable pageable);
 
     /**
      * Updates the <code>T</code> object.

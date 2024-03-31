@@ -3,7 +3,7 @@ package com.devamatre.appsuite.spring.controller.rest;
 import com.devamatre.appsuite.spring.exception.InvalidRequestException;
 import com.devamatre.appsuite.spring.filter.Filter;
 import com.devamatre.appsuite.core.BeanUtils;
-import com.devamatre.appsuite.spring.persistence.Operation;
+import com.devamatre.appsuite.spring.persistence.ServiceOperation;
 import com.devamatre.appsuite.core.Payload;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -32,11 +32,11 @@ public interface RestController<T, ID extends Serializable> {
     }
 
     /**
-     * @param operation
+     * @param serviceOperation
      * @param t
      * @return
      */
-    public default T validate(Operation operation, T t) {
+    public default T validate(ServiceOperation serviceOperation, T t) {
         return t;
     }
 
