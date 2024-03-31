@@ -8,7 +8,7 @@ import java.util.Map;
  * @author Rohtash Lakra
  * @created 8/11/23 8:14 PM
  */
-public class DefaultFilter extends AbstractFilterImpl {
+public class DefaultFilter<E> extends AbstractFilter<E> {
 
     /**
      * The payload is initialized with the provided <code>Payload<String, V></code> params.

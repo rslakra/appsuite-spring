@@ -48,7 +48,7 @@
         <lombok.version>1.18.28</lombok.version>
 
         <!-- appsuite-core -->
-        <appsuite-core.version>0.0.26</appsuite-core.version>
+        <appsuite-core.version>0.0.30</appsuite-core.version>
 
         <!-- swagger -->
         <swagger.skip>false</swagger.skip>
@@ -191,7 +191,7 @@
         <plugins>
 
             <!-- Note:- Don't uncomment this plug-in for the common packages -->
-            <!-- frameworks-boot-maven-plugin -->
+            <!-- spring-boot-maven-plugin -->
             <!--            <plugin>-->
             <!--                <groupId>org.springframework.boot</groupId>-->
             <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->

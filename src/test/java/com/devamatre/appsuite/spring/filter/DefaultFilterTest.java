@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
  */
 public class DefaultFilterTest {
 
-    private Filter filter;
+    private Filter<Object> filter;
     private static final String ID = "id";
     private static final String ZERO = "0";
     private static final String STATUS = "status";
@@ -49,7 +49,7 @@ public class DefaultFilterTest {
      */
     @BeforeEach
     public void initFilter() {
-        filter = new DefaultFilter(newDefaultPayload());
+        filter = new DefaultFilter<>(newDefaultPayload());
     }
 
     /**
@@ -108,11 +108,12 @@ public class DefaultFilterTest {
         String name = filter.getValue(NAME, String.class);
         assertEquals(NAME_VALUE, name);
         assertEquals(Long.valueOf(BIRTHDAY_VALUE), filter.getValue(BIRTHDAY, Long.class));
-        assertEquals(Boolean.TRUE, filter.getValue(IS_BRAVE, Boolean.class));
+        assertTrue(filter.getValue(IS_BRAVE, Boolean.class));
         assertEquals(Integer.valueOf(FUN_SCORE_VALUE), filter.getValue(FUN_SCORE, Integer.class));
-        assertEquals(Integer.valueOf(FUN_SCORE_VALUE), filter.getValue(FUN_SCORE, Number.class));
+        assertEquals(Long.valueOf(FUN_SCORE_VALUE), filter.getValue(FUN_SCORE, Long.class));
         assertEquals(FUN_SCORE_VALUE, filter.getValue(FUN_SCORE, Number.class));
-        assertEquals(Boolean.TRUE, filter.getValue(STATUS, Boolean.class));
+        assertTrue(filter.getValue(STATUS, Boolean.class));
+        assertFalse(filter.getValue("isValid", Boolean.class));
     }
 
     /**

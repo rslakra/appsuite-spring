@@ -1,12 +1,14 @@
 package com.devamatre.appsuite.spring.filter;
 
+import java.io.Serializable;
+
 /**
  * @author Rohtash Lakra
  * @created 2/8/23 10:32 AM
  */
-public interface Filter {
+public interface Filter<E> extends Serializable {
 
-    public static final String ID = "id";
+    String ID = "id";
 
     /**
      * Returns true if the filter contains the provided <code>key</code>.
@@ -33,18 +35,28 @@ public interface Filter {
     Object getValue(String keyName);
 
     /**
-     * Returns the value of the provided <code>key</code> as the type of <code>T</code>.
+     * Returns the value of the provided <code>key</code> as the type of <code>E</code>.
      *
      * @param keyName
      * @param classType
-     * @param <T>
+     * @param <E>
      * @return
      */
-    <T> T getValue(String keyName, Class<T> classType);
+    default <E> E getValue(String keyName, Class<E> classType) {
+        return null;
+    }
 
     /**
-     * Returns the value of the provided <code>key</code> as the type of <code>Long</code>.
+     * Applies the filter on the provided <code>E</code>.
      *
+     * @param e
+     * @return
+     */
+    default boolean apply(E e) {
+        return false;
+    }
+
+    /**
      * @param keyName
      * @return
      */

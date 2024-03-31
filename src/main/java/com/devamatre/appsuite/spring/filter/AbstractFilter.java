@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author Rohtash Lakra
  * @created 2/8/23 10:33 AM
  */
-public abstract class AbstractFilterImpl implements Filter {
+public abstract class AbstractFilter<E> implements Filter<E> {
 
     private static final String
         INVALID_TYPE_MESSAGE =
@@ -29,7 +29,7 @@ public abstract class AbstractFilterImpl implements Filter {
      *
      * @param allParams
      */
-    public AbstractFilterImpl(final Payload<String, Object> allParams) {
+    public AbstractFilter(final Payload<String, Object> allParams) {
         payload = Payload.newBuilder().ofPayload(allParams);
     }
 
@@ -38,7 +38,7 @@ public abstract class AbstractFilterImpl implements Filter {
      *
      * @param allParams
      */
-    public AbstractFilterImpl(final Map<String, Object> allParams) {
+    public AbstractFilter(final Map<String, Object> allParams) {
         payload = Payload.newBuilder(allParams);
     }
 
@@ -86,10 +86,11 @@ public abstract class AbstractFilterImpl implements Filter {
     }
 
     /**
-     * Returns the value of the provided <code>key</code> as the type of <code>T</code>.
+     * Returns the value of the provided <code>key</code> as the type of <code>E</code>.
      *
      * @param keyName
      * @param classType
+     * @param <T>
      * @return
      * @throws ClassCastException
      */
@@ -97,17 +98,18 @@ public abstract class AbstractFilterImpl implements Filter {
     public <T> T getValue(String keyName, Class<T> classType) {
         if (hasKey(keyName)) {
             Object value = getValue(keyName);
-            String strValue = Objects.toString(value);
             if (BeanUtils.isKindOf(value, classType)) {
                 return (T) value;
             } else if (BeanUtils.isPrimitive(classType)) {
-                return BeanUtils.asType(strValue, classType);
+                return BeanUtils.asType(Objects.toString(value), classType);
             }
 
             throw new ClassCastException(errorMessage(value, classType));
+        } else if (classType.isAssignableFrom(Boolean.class)) {
+            return (T) Boolean.FALSE;
         }
 
-        return null;
+        return (T) null;
     }
 
     /**
