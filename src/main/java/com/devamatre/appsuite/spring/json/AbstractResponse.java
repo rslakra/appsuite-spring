@@ -1,6 +1,6 @@
-package com.devamatre.appsuite.spring.json;
+package com.rslakra.appsuite.spring.json;
 
-import com.devamatre.appsuite.core.BeanUtils;
+import com.rslakra.appsuite.core.BeanUtils;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -1,8 +1,8 @@
-package com.devamatre.appsuite.spring.controller.web;
+package com.rslakra.appsuite.spring.controller.web;
 
-import com.devamatre.appsuite.spring.filter.Filter;
-import com.devamatre.appsuite.core.Payload;
-import com.devamatre.appsuite.spring.persistence.ServiceOperation;
+import com.rslakra.appsuite.spring.filter.Filter;
+import com.rslakra.appsuite.core.Payload;
+import com.rslakra.appsuite.spring.persistence.ServiceOperation;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;

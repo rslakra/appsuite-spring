@@ -1,7 +1,7 @@
-package com.devamatre.appsuite.spring.parser.csv;
+package com.rslakra.appsuite.spring.parser.csv;
 
-import com.devamatre.appsuite.spring.parser.Parser;
-import com.devamatre.appsuite.core.BeanUtils;
+import com.rslakra.appsuite.spring.parser.Parser;
+import com.rslakra.appsuite.core.BeanUtils;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;

@@ -1,4 +1,4 @@
-package com.devamatre.appsuite.spring.service;
+package com.rslakra.appsuite.spring.service;
 
 import org.springframework.context.ApplicationContextAware;
 

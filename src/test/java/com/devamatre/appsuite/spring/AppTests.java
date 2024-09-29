@@ -1,4 +1,4 @@
-package com.devamatre.appsuite.spring;
+package com.rslakra.appsuite.spring;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

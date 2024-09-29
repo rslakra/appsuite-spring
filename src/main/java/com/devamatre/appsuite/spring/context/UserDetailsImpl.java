@@ -1,4 +1,4 @@
-package com.devamatre.appsuite.spring.context;
+package com.rslakra.appsuite.spring.context;
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.authority.SimpleGrantedAuthority;
 //import org.springframework.security.core.userdetails.UserDetails;

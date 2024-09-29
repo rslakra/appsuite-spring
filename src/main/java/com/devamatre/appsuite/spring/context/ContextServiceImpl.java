@@ -1,6 +1,6 @@
-package com.devamatre.appsuite.spring.context;
+package com.rslakra.appsuite.spring.context;
 
-import com.devamatre.appsuite.spring.service.ContextService;
+import com.rslakra.appsuite.spring.service.ContextService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;

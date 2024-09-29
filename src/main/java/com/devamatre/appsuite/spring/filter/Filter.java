@@ -1,4 +1,4 @@
-package com.devamatre.appsuite.spring.filter;
+package com.rslakra.appsuite.spring.filter;
 
 import java.io.Serializable;
 

@@ -1,8 +1,8 @@
-package com.devamatre.appsuite.spring.service;
+package com.rslakra.appsuite.spring.service;
 
-import com.devamatre.appsuite.core.BeanUtils;
-import com.devamatre.appsuite.spring.filter.Filter;
-import com.devamatre.appsuite.spring.persistence.ServiceOperation;
+import com.rslakra.appsuite.core.BeanUtils;
+import com.rslakra.appsuite.spring.filter.Filter;
+import com.rslakra.appsuite.spring.persistence.ServiceOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;

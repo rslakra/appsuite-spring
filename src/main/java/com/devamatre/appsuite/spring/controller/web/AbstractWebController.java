@@ -1,11 +1,11 @@
-package com.devamatre.appsuite.spring.controller.web;
+package com.rslakra.appsuite.spring.controller.web;
 
-import com.devamatre.appsuite.spring.parser.Parser;
-import com.devamatre.appsuite.spring.parser.csv.CsvParser;
-import com.devamatre.appsuite.spring.parser.excel.ExcelParser;
-import com.devamatre.appsuite.spring.service.AbstractService;
-import com.devamatre.appsuite.core.BeanUtils;
-import com.devamatre.appsuite.core.Payload;
+import com.rslakra.appsuite.spring.parser.Parser;
+import com.rslakra.appsuite.spring.parser.csv.CsvParser;
+import com.rslakra.appsuite.spring.parser.excel.ExcelParser;
+import com.rslakra.appsuite.spring.service.AbstractService;
+import com.rslakra.appsuite.core.BeanUtils;
+import com.rslakra.appsuite.core.Payload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.InputStreamResource;

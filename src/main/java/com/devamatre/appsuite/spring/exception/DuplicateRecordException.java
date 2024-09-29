@@ -1,6 +1,6 @@
-package com.devamatre.appsuite.spring.exception;
+package com.rslakra.appsuite.spring.exception;
 
-import com.devamatre.appsuite.core.exception.ServerRuntimeException;
+import com.rslakra.appsuite.core.exception.ServerRuntimeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 

@@ -1,4 +1,4 @@
-package com.devamatre.appsuite.spring.controller.rest;
+package com.rslakra.appsuite.spring.controller.rest;
 
 import java.io.Serializable;
 

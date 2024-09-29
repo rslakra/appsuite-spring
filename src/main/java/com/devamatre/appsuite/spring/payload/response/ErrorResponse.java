@@ -1,6 +1,6 @@
-package com.devamatre.appsuite.spring.payload.response;
+package com.rslakra.appsuite.spring.payload.response;
 
-import com.devamatre.appsuite.spring.SpringUtils;
+import com.rslakra.appsuite.spring.SpringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.ObjectError;
 

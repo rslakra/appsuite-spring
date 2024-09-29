@@ -1,4 +1,4 @@
-package com.devamatre.appsuite.spring.client;
+package com.rslakra.appsuite.spring.client;
 
 /**
  * @author Rohtash Lakra

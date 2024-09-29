@@ -1,6 +1,6 @@
-package com.devamatre.appsuite.spring.persistence.listener;
+package com.rslakra.appsuite.spring.persistence.listener;
 
-import com.devamatre.appsuite.spring.persistence.ServiceOperation;
+import com.rslakra.appsuite.spring.persistence.ServiceOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

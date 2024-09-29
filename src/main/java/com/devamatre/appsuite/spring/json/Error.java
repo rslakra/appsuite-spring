@@ -1,4 +1,4 @@
-package com.devamatre.appsuite.spring.json;
+package com.rslakra.appsuite.spring.json;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

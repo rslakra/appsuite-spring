@@ -1,4 +1,4 @@
-package com.devamatre.appsuite.spring.aop;
+package com.rslakra.appsuite.spring.aop;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

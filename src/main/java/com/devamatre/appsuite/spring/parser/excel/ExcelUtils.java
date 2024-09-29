@@ -1,4 +1,4 @@
-package com.devamatre.appsuite.spring.parser.excel;
+package com.rslakra.appsuite.spring.parser.excel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

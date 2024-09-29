@@ -1,7 +1,7 @@
-package com.devamatre.appsuite.http;
+package com.rslakra.appsuite.http;
 
-import com.devamatre.appsuite.core.BeanUtils;
-import com.devamatre.appsuite.core.security.OAuth2Keys;
+import com.rslakra.appsuite.core.BeanUtils;
+import com.rslakra.appsuite.core.security.OAuth2Keys;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

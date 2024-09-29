@@ -11,7 +11,7 @@
         <relativePath/>
     </parent>
     <!-- appsuite-spring -->
-    <groupId>com.devamatre.appsuite</groupId>
+    <groupId>com.rslakra.appsuite</groupId>
     <artifactId>appsuite-spring</artifactId>
     <version>${revision}</version>
     <packaging>jar</packaging>
@@ -48,7 +48,7 @@
         <lombok.version>1.18.28</lombok.version>
 
         <!-- appsuite-core -->
-        <appsuite-core.version>0.0.30</appsuite-core.version>
+        <appsuite-core.version>0.0.33</appsuite-core.version>
 
         <!-- swagger -->
         <swagger.skip>false</swagger.skip>
@@ -91,7 +91,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.devamatre.appsuite</groupId>
+            <groupId>com.rslakra.appsuite</groupId>
             <artifactId>appsuite-core</artifactId>
             <version>${appsuite-core.version}</version>
         </dependency>

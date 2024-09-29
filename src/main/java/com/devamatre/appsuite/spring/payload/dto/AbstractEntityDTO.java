@@ -1,6 +1,6 @@
-package com.devamatre.appsuite.spring.payload.dto;
+package com.rslakra.appsuite.spring.payload.dto;
 
-import com.devamatre.appsuite.core.ToString;
+import com.rslakra.appsuite.core.ToString;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

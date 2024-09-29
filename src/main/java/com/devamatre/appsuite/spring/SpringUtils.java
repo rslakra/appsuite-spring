@@ -1,9 +1,9 @@
-package com.devamatre.appsuite.spring;
+package com.rslakra.appsuite.spring;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.devamatre.appsuite.core.BeanUtils;
-import com.devamatre.appsuite.spring.payload.dto.AbstractEntityDTO;
+import com.rslakra.appsuite.core.BeanUtils;
+import com.rslakra.appsuite.spring.payload.dto.AbstractEntityDTO;
 import org.springframework.ui.Model;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;

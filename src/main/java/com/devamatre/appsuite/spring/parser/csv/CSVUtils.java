@@ -1,4 +1,4 @@
-package com.devamatre.appsuite.spring.parser.csv;
+package com.rslakra.appsuite.spring.parser.csv;
 
 
 import org.apache.commons.csv.CSVFormat;

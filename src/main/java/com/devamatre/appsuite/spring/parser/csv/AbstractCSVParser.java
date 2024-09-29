@@ -1,6 +1,6 @@
-package com.devamatre.appsuite.spring.parser.csv;
+package com.rslakra.appsuite.spring.parser.csv;
 
-import com.devamatre.appsuite.spring.parser.AbstractParser;
+import com.rslakra.appsuite.spring.parser.AbstractParser;
 
 /**
  * @author Rohtash Lakra

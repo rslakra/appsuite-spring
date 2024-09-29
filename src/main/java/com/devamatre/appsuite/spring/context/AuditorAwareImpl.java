@@ -1,4 +1,4 @@
-package com.devamatre.appsuite.spring.context;
+package com.rslakra.appsuite.spring.context;
 
 
 import org.springframework.data.domain.AuditorAware;
