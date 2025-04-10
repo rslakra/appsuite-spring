@@ -72,7 +72,7 @@
 
         <!-- excel-parser -->
         <poi.version>5.2.3</poi.version>
-        <poi-ooxml.version>5.2.3</poi-ooxml.version>
+        <poi-ooxml.version>5.4.0</poi-ooxml.version>
 
         <!-- junit-jupiter-params -->
         <junit-jupiter-params.version>5.9.2</junit-jupiter-params.version>
