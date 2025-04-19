@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author Rohtash Lakra
@@ -62,10 +63,10 @@ public interface WebController<T, ID extends Serializable> {
      * Create the new object or Updates the object with <code>id</code>.
      *
      * @param model
-     * @param id
+     * @param idOptional
      * @return
      */
-    public String editObject(Model model, ID id);
+    public String editObject(Model model, Optional<ID> idOptional);
 
     /**
      * Deletes the object with <code>id</code>.
