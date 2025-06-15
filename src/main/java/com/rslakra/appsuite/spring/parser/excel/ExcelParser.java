@@ -151,7 +151,7 @@ public interface ExcelParser<T> extends Parser<T> {
      * @param tList
      * @return
      */
-    default InputStreamResource buildStreamResources(String excelSheetName, String[] sheetHeaders, List<T> tList) {
+    default InputStreamResource buildStreamResources(String excelSheetName, String[] sheetHeaders, List<T> tList) throws IOException {
         try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream byteStream = new ByteArrayOutputStream();) {
             Sheet sheet = workbook.createSheet(excelSheetName);
             // Headers Row
@@ -162,7 +162,7 @@ public interface ExcelParser<T> extends Parser<T> {
             workbook.write(byteStream);
             return new InputStreamResource(new ByteArrayInputStream(byteStream.toByteArray()));
         } catch (IOException ex) {
-            throw new RuntimeException("Failed to import data to Excel file: " + ex.getMessage());
+            throw new IOException("Failed to import data from Excel file! Error=" + ex.getMessage(), ex);
         }
     }
 
@@ -172,7 +172,7 @@ public interface ExcelParser<T> extends Parser<T> {
      * @param tList
      * @return
      */
-    default InputStreamResource buildStreamResources(final List<T> tList) {
+    default InputStreamResource buildStreamResources(final List<T> tList) throws IOException {
         return buildStreamResources(getSheetName(), getWriteHeaders(), tList);
     }
 
