@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
- * @author Rohtash Lakra (rlakra)
+ * @author Rohtash Lakra
  * @created 5/25/22 14:43 PM
  */
 public enum TestUtils {

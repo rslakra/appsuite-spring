@@ -13,6 +13,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -49,7 +51,11 @@ public interface Parser<T> {
             } else if (BeanUtils.isTypeOf(tClass, Byte.class)) {
                 return (T) Byte.valueOf(text);
             } else if (BeanUtils.isTypeOf(tClass, Date.class)) {
-                return (T) new Date(text);
+                try {
+                    return (T) DateFormat.getInstance().parse(text);
+                } catch (ParseException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         }
 
