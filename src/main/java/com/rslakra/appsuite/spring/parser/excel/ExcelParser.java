@@ -105,6 +105,7 @@ public interface ExcelParser<T> extends Parser<T> {
      * @param sheet
      * @param headers
      */
+    @SuppressWarnings("varargs")
     default void addHeaders(Sheet sheet, String[] headers) {
         BeanUtils.assertNonNull(sheet, "The sheet should not be null!");
         // Headers Row
