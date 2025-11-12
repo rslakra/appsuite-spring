@@ -23,6 +23,7 @@ public enum TestUtils {
      * @param pathComponents
      * @return
      */
+    @SuppressWarnings("varargs")
     public static String pathString(final String serverUrl, final int port, final String... pathComponents) {
         if (BeanUtils.isNotEmpty(pathComponents)) {
             return String.format("%s:%d/%s", serverUrl, port, BeanUtils.pathSegments(pathComponents));

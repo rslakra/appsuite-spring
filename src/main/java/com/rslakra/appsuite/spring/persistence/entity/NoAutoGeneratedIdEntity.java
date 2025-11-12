@@ -8,10 +8,10 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.Column;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 
 /**
  * @author Rohtash Lakra

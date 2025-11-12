@@ -70,6 +70,7 @@ public abstract class AbstractFilter<E> implements Filter<E> {
      * @return
      */
     @Override
+    @SuppressWarnings("varargs")
     public boolean hasKeys(String... keys) {
         return (BeanUtils.isNotEmpty(keys) && payload.keySet().containsAll(Arrays.asList(keys)));
     }

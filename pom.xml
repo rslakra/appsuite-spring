@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.18</version>
+        <version>3.5.7</version>
         <!-- lookup parent from repository -->
         <relativePath/>
     </parent>
@@ -33,7 +33,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <!-- maven plugins -->
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
-        <maven-checkstyle-plugin.version>3.5.0</maven-checkstyle-plugin.version>
+        <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
         <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
 
         <!-- checkstyle -->
@@ -45,7 +45,7 @@
         <!--<slf4j-log4j12.version>2.0.6</slf4j-log4j12.version>-->
 
         <!-- lombok -->
-        <lombok.version>1.18.34</lombok.version>
+        <lombok.version>1.18.42</lombok.version>
 
         <!-- appsuite-core -->
         <appsuite-core.version>0.0.74</appsuite-core.version>
@@ -62,18 +62,18 @@
         <httpasyncclient.version>4.1.5</httpasyncclient.version>
 
         <!-- guava -->
-        <guava.version>33.4.8-jre</guava.version>
+        <guava.version>33.5.0-jre</guava.version>
 
         <!-- csv-parser -->
-        <commons-csv.version>1.14.0</commons-csv.version>
-        <opencsv.version>5.10</opencsv.version>
+        <commons-csv.version>1.14.1</commons-csv.version>
+        <opencsv.version>5.12.0</opencsv.version>
 
         <!-- excel-parser -->
         <poi.version>5.4.1</poi.version>
         <poi-ooxml.version>5.4.1</poi-ooxml.version>
 
         <!-- junit-jupiter-params -->
-        <junit-jupiter-params.version>5.10.2</junit-jupiter-params.version>
+        <junit-jupiter-params.version>6.0.1</junit-jupiter-params.version>
 
     </properties>
 
@@ -206,6 +206,11 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <proc>full</proc>
+                    <compilerArgs>
+                        <arg>-Xlint:-options</arg>
+                        <arg>-Xlint:-varargs</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
 

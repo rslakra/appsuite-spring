@@ -95,19 +95,21 @@ public interface CsvParser<T> extends Parser<T> {
      * @param tList
      * @return
      */
+    @SuppressWarnings("varargs")
     default InputStreamResource buildCSVResourceStream(final List<T> tList) throws IOException {
         try (ByteArrayOutputStream csvByteStream = new ByteArrayOutputStream();
              final CSVPrinter csvPrinter = new CSVPrinter(new PrintWriter(csvByteStream), CSV_WRITER_FORMAT);) {
             // add headers row
-            if (BeanUtils.isNotEmpty(getWriteHeaders())) {
-                csvPrinter.printRecord(getWriteHeaders());
+            String[] writeHeaders = getWriteHeaders();
+            if (BeanUtils.isNotEmpty(writeHeaders)) {
+                csvPrinter.printRecord((Object[]) writeHeaders);
             }
             
             // add contents
             if (BeanUtils.isNotEmpty(tList)) {
                 tList.forEach(item -> {
                     try {
-                        csvPrinter.printRecord(buildRowCells(item));
+                        csvPrinter.printRecord(buildRowCells(item).toArray());
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }

@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.MappedSuperclass;
 
 /**
  * @author Rohtash Lakra
