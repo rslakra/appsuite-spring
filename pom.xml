@@ -212,6 +212,7 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <proc>full</proc>
+                    <parameters>true</parameters>
                     <compilerArgs>
                         <arg>-Xlint:-options</arg>
                         <arg>-Xlint:-varargs</arg>

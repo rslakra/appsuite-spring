@@ -28,7 +28,16 @@ SNAPSHOT_VERSION=$(buildVersion SNAPSHOT)
 RELEASE_VERSION=$(buildVersion)
 #echo "RELEASE_VERSION: ${RELEASE_VERSION}, SNAPSHOT_VERSION: ${SNAPSHOT_VERSION}"
 #mvn clean install -DskipTests=true -DprojectVersion=$RELEASE_VERSION
-mvn clean install -Drevision=$SNAPSHOT_VERSION
-mvn install -Drevision=$RELEASE_VERSION -DskipTests=true
+
+# Force update dependencies and rebuild from scratch (no cache)
+# -U: Force update of snapshot dependencies (checks remote repositories for updates)
+# -nsu: Don't check for snapshot updates (opposite of -U, but -U overrides it)
+# clean: Removes target directory to ensure fresh build
+echo "Building SNAPSHOT version: ${SNAPSHOT_VERSION}"
+mvn clean install -U -Drevision=$SNAPSHOT_VERSION
+
+echo "Building RELEASE version: ${RELEASE_VERSION}"
+mvn clean install -U -Drevision=$RELEASE_VERSION -DskipTests=true
+
 #mvn clean install -DskipTests=true -DprojectVersion=$(./makeVersion.sh SNAPSHOT)
 echo

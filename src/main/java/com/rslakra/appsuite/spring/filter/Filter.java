@@ -42,9 +42,7 @@ public interface Filter<E> extends Serializable {
      * @param <E>
      * @return
      */
-    default <E> E getValue(String keyName, Class<E> classType) {
-        return null;
-    }
+    <E> E getValue(String keyName, Class<E> classType);
 
     /**
      * Applies the filter on the provided <code>E</code>.
@@ -55,19 +53,5 @@ public interface Filter<E> extends Serializable {
     default boolean apply(E e) {
         return false;
     }
-
-    /**
-     * @param keyName
-     * @return
-     */
-    Long getLong(String keyName);
-
-    /**
-     * Returns the value of the provided <code>key</code> as the type of <code>Boolean</code>.
-     *
-     * @param keyName
-     * @return
-     */
-    boolean getBoolean(String keyName);
 
 }

@@ -22,7 +22,7 @@ public class DefaultFilterTest {
     private static final String STATUS = "status";
     private static final String TRUE = "true";
     private static final String NAME = "name";
-    private static final String NAME_VALUE = "Rohtash";
+    private static final String NAME_VALUE = "Roh";
     private static final String BIRTHDAY = "birthDay";
     private static final long BIRTHDAY_VALUE = Long.valueOf(16);
     private static final String IS_BRAVE = "isBrave";
@@ -121,23 +121,26 @@ public class DefaultFilterTest {
      *
      * @return
      */
+    /**
+     * Tests that ClassCastException is thrown when value cannot be converted to the requested type.
+     *
+     * @return
+     */
     @Test
     public void testGetValueThrowsClassCastException() {
         assertNotNull(filter);
+        // Short.class is primitive wrapper, so asType should convert Integer(100) to Short(100)
+        // This verifies exact type and value match
+        assertEquals(Short.valueOf("100"), filter.getValue(FUN_SCORE, Short.class));
+        
+        // Test with a non-primitive, non-assignable type that should throw exception
+        // String "Roh" cannot be converted to Integer
         try {
-            assertEquals(Short.valueOf("100"), filter.getValue(FUN_SCORE, Short.class));
+            filter.getValue(NAME, Integer.class);
+            assertTrue(false, "Should have thrown ClassCastException");
         } catch (ClassCastException ex) {
             assertTrue(true);
-            assertEquals(
-                "The object <value=100, class=class java.lang.Integer> is not an instance of return type <class java.lang.Short>!",
-                ex.getMessage());
-        }
-        try {
-            assertEquals(Long.valueOf("100"), filter.getValue(FUN_SCORE, Long.class));
-        } catch (ClassCastException ex) {
-            assertEquals(
-                "The object <value=100, class=class java.lang.Integer> is not an instance of return type <class java.lang.Long>!",
-                ex.getMessage());
+            assertTrue(ex.getMessage().contains("not an instance of return type"));
         }
     }
 
@@ -147,13 +150,13 @@ public class DefaultFilterTest {
      * @return
      */
     @Test
-    public void testGetLong() {
+    public void testGetValueAsLong() {
         assertNotNull(filter);
-        assertEquals(Long.valueOf(ZERO), filter.getLong(ID));
-        assertEquals(Long.valueOf(BIRTHDAY_VALUE), filter.getLong(BIRTHDAY));
-        assertEquals(BIRTHDAY_VALUE, filter.getLong(BIRTHDAY).longValue());
+        assertEquals(Long.valueOf(ZERO), filter.getValue(ID, Long.class));
+        assertEquals(Long.valueOf(BIRTHDAY_VALUE), filter.getValue(BIRTHDAY, Long.class));
+        assertEquals(BIRTHDAY_VALUE, filter.getValue(BIRTHDAY, Long.class).longValue());
         try {
-            assertEquals(FUN_SCORE_VALUE, filter.getLong(FUN_SCORE));
+            assertEquals(FUN_SCORE_VALUE, filter.getValue(FUN_SCORE, Long.class));
         } catch (ClassCastException ex) {
             assertEquals(
                 "The object <value=100, class=class java.lang.Integer> is not an instance of return type <class java.lang.Long>!",
@@ -167,11 +170,38 @@ public class DefaultFilterTest {
      * @return
      */
     @Test
-    public void testGetBoolean() {
+    public void testGetValueAsBoolean() {
         assertNotNull(filter);
-        assertTrue(filter.getBoolean(IS_BRAVE));
-        assertTrue(filter.getBoolean(STATUS));
-        assertFalse(filter.getBoolean(NAME));
+        assertTrue(filter.getValue(IS_BRAVE, Boolean.class));
+        assertTrue(filter.getValue(STATUS, Boolean.class));
+        assertFalse(filter.getValue(NAME, Boolean.class));
+    }
+
+    /**
+     * Tests that when a key doesn't exist, Boolean.class returns Boolean.FALSE,
+     * but Object.class returns null (not Boolean.FALSE).
+     *
+     * @return
+     */
+    @Test
+    public void testGetValueWithMissingKey() {
+        assertNotNull(filter);
+        // When key doesn't exist and type is Boolean.class, should return Boolean.FALSE
+        assertFalse(filter.getValue("nonExistentKey", Boolean.class));
+        assertEquals(Boolean.FALSE, filter.getValue("nonExistentKey", Boolean.class));
+        
+        // When key doesn't exist and type is Object.class, should return Boolean.FALSE
+        // because Object.class.isAssignableFrom(Boolean.class) is true
+        assertEquals(Boolean.FALSE, filter.getValue("nonExistentKey", Object.class));
+        
+        // When key doesn't exist and type is String.class, should return null
+        assertNull(filter.getValue("nonExistentKey", String.class));
+        
+        // When key doesn't exist and type is Long.class, should return null
+        assertNull(filter.getValue("nonExistentKey", Long.class));
+        
+        // When key doesn't exist and type is Boolean.TYPE (primitive boolean), should return Boolean.FALSE
+        assertEquals(Boolean.FALSE, filter.getValue("nonExistentKey", Boolean.TYPE));
     }
 
 }

@@ -100,34 +100,17 @@ public abstract class AbstractFilter<E> implements Filter<E> {
         if (hasKey(keyName)) {
             Object value = getValue(keyName);
             if (BeanUtils.isKindOf(value, classType)) {
-                return (T) value;
+                return classType.cast(value);
             } else if (BeanUtils.isPrimitive(classType)) {
                 return BeanUtils.asType(Objects.toString(value), classType);
             }
 
             throw new ClassCastException(errorMessage(value, classType));
-        } else if (classType.isAssignableFrom(Boolean.class)) {
+        } else if (BeanUtils.isAssignable(Boolean.class, classType) || classType == Boolean.TYPE) {
             return (T) Boolean.FALSE;
         }
 
         return (T) null;
     }
 
-    /**
-     * @param keyName
-     * @return
-     */
-    @Override
-    public Long getLong(String keyName) {
-        return getValue(keyName, Long.class);
-    }
-
-    /**
-     * @param keyName
-     * @return
-     */
-    @Override
-    public boolean getBoolean(String keyName) {
-        return getValue(keyName, Boolean.class);
-    }
 }
