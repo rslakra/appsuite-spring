@@ -258,6 +258,8 @@ public class DefaultFilterTest {
         payload.ofPair("doubleValue", 789.5);
         payload.ofPair("booleanValue", true);
         payload.ofPair("nullValue", null);
+        payload.ofPair("stringNumber", "123");
+        payload.ofPair("stringBoolean", "true");
         
         DefaultFilter<Object> typeFilter = new DefaultFilter<>(payload);
         
@@ -265,20 +267,43 @@ public class DefaultFilterTest {
         
         // Test String value
         assertEquals("test", typeFilter.getString("stringValue"));
-        
-        // Test numeric values converted to String
-        assertEquals("123", typeFilter.getString("intValue"));
-        assertEquals("456", typeFilter.getString("longValue"));
-        assertEquals("789.5", typeFilter.getString("doubleValue"));
-        
-        // Test Boolean value converted to String
-        assertEquals("true", typeFilter.getString("booleanValue"));
+        assertEquals("123", typeFilter.getString("stringNumber"));
+        assertEquals("true", typeFilter.getString("stringBoolean"));
         
         // Test null value
         assertNull(typeFilter.getString("nullValue"));
         
         // Test missing key
         assertNull(typeFilter.getString("missingKey"));
+        
+        // Test that non-String values throw ClassCastException
+        try {
+            typeFilter.getString("intValue");
+            assertTrue(false, "Should have thrown ClassCastException for Integer value");
+        } catch (ClassCastException ex) {
+            assertTrue(ex.getMessage().contains("not an instance of return type"));
+        }
+        
+        try {
+            typeFilter.getString("longValue");
+            assertTrue(false, "Should have thrown ClassCastException for Long value");
+        } catch (ClassCastException ex) {
+            assertTrue(ex.getMessage().contains("not an instance of return type"));
+        }
+        
+        try {
+            typeFilter.getString("doubleValue");
+            assertTrue(false, "Should have thrown ClassCastException for Double value");
+        } catch (ClassCastException ex) {
+            assertTrue(ex.getMessage().contains("not an instance of return type"));
+        }
+        
+        try {
+            typeFilter.getString("booleanValue");
+            assertTrue(false, "Should have thrown ClassCastException for Boolean value");
+        } catch (ClassCastException ex) {
+            assertTrue(ex.getMessage().contains("not an instance of return type"));
+        }
     }
 
     /**
