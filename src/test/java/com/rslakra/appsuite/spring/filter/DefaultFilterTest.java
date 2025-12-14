@@ -204,4 +204,161 @@ public class DefaultFilterTest {
         assertEquals(Boolean.FALSE, filter.getValue("nonExistentKey", Boolean.TYPE));
     }
 
+    /**
+     * Tests DefaultFilter with custom TestUser class type.
+     *
+     * @return
+     */
+    @Test
+    public void testDefaultFilterWithCustomUserType() {
+        Payload<String, Object> userPayload = Payload.newBuilder();
+        userPayload.ofPair("id", 1L);
+        userPayload.ofPair("name", "Roh Lak");
+        userPayload.ofPair("email", "rslakra@lakra.com");
+        userPayload.ofPair("age", 30);
+        userPayload.ofPair("active", true);
+        
+        DefaultFilter<TestUser> userFilter = new DefaultFilter<>(userPayload);
+        
+        assertNotNull(userFilter);
+        assertTrue(userFilter.hasKey("id"));
+        assertTrue(userFilter.hasKey("name"));
+        assertTrue(userFilter.hasKey("email"));
+        assertTrue(userFilter.hasKey("age"));
+        assertTrue(userFilter.hasKey("active"));
+        
+        assertEquals(1L, userFilter.getValue("id"));
+        assertEquals("Roh Lak", userFilter.getValue("name"));
+        assertEquals("rslakra@lakra.com", userFilter.getValue("email"));
+        assertEquals(30, userFilter.getValue("age"));
+        assertEquals(true, userFilter.getValue("active"));
+        
+        // Test with type conversion
+        assertEquals(Long.valueOf(1L), userFilter.getValue("id", Long.class));
+        assertEquals("Roh Lak", userFilter.getValue("name", String.class));
+        assertEquals(Integer.valueOf(30), userFilter.getValue("age", Integer.class));
+        assertTrue(userFilter.getValue("active", Boolean.class));
+        
+        // Test apply method (default returns false)
+        TestUser testUser = new TestUser(1L, "Roh Lak", "rslakra@lakra.com", 30, true);
+        assertFalse(userFilter.apply(testUser));
+    }
+
+    /**
+     * Tests DefaultFilter with custom TestProduct class type.
+     *
+     * @return
+     */
+    @Test
+    public void testDefaultFilterWithCustomProductType() {
+        Payload<String, Object> productPayload = Payload.newBuilder();
+        productPayload.ofPair("productId", "P001");
+        productPayload.ofPair("productName", "Test Product");
+        productPayload.ofPair("quantity", 10);
+        productPayload.ofPair("inStock", true);
+        productPayload.ofPair("price", 99.99);
+        
+        DefaultFilter<TestProduct> productFilter = new DefaultFilter<>(productPayload);
+        
+        assertNotNull(productFilter);
+        assertTrue(productFilter.hasKey("productId"));
+        assertTrue(productFilter.hasKey("productName"));
+        assertTrue(productFilter.hasKey("quantity"));
+        assertTrue(productFilter.hasKey("inStock"));
+        assertTrue(productFilter.hasKey("price"));
+        
+        assertEquals("P001", productFilter.getValue("productId"));
+        assertEquals("Test Product", productFilter.getValue("productName"));
+        assertEquals(10, productFilter.getValue("quantity"));
+        assertEquals(true, productFilter.getValue("inStock"));
+        assertEquals(99.99, productFilter.getValue("price"));
+        
+        // Test with type conversion
+        assertEquals("P001", productFilter.getValue("productId", String.class));
+        assertEquals(Integer.valueOf(10), productFilter.getValue("quantity", Integer.class));
+        assertTrue(productFilter.getValue("inStock", Boolean.class));
+        assertEquals(Double.valueOf(99.99), productFilter.getValue("price", Double.class));
+        
+        // Test apply method (default returns false)
+        TestProduct testProduct = new TestProduct("P001", "Test Product", null, 10, null, true);
+        assertFalse(productFilter.apply(testProduct));
+    }
+
+    /**
+     * Tests DefaultFilter with Map constructor and custom types.
+     *
+     * @return
+     */
+    @Test
+    public void testDefaultFilterWithMapConstructorAndCustomTypes() {
+        java.util.Map<String, Object> map = new java.util.HashMap<>();
+        map.put("userId", 100L);
+        map.put("userName", "TestUser");
+        map.put("userEmail", "test@example.com");
+        map.put("userAge", 25);
+        map.put("isActive", true);
+        
+        DefaultFilter<TestUser> userFilter = new DefaultFilter<>(map);
+        
+        assertNotNull(userFilter);
+        assertTrue(userFilter.hasKeys("userId", "userName", "userEmail", "userAge", "isActive"));
+        
+        assertEquals(100L, userFilter.getValue("userId"));
+        assertEquals("TestUser", userFilter.getValue("userName"));
+        assertEquals("test@example.com", userFilter.getValue("userEmail"));
+        assertEquals(25, userFilter.getValue("userAge"));
+        assertEquals(true, userFilter.getValue("isActive"));
+        
+        // Test type conversions
+        assertEquals(Long.valueOf(100L), userFilter.getValue("userId", Long.class));
+        assertEquals("TestUser", userFilter.getValue("userName", String.class));
+        assertEquals(Integer.valueOf(25), userFilter.getValue("userAge", Integer.class));
+        assertTrue(userFilter.getValue("isActive", Boolean.class));
+    }
+
+    /**
+     * Tests DefaultFilter with various primitive and wrapper types.
+     *
+     * @return
+     */
+    @Test
+    public void testDefaultFilterWithVariousTypes() {
+        Payload<String, Object> payload = Payload.newBuilder();
+        payload.ofPair("byteValue", (byte) 10);
+        payload.ofPair("shortValue", (short) 20);
+        payload.ofPair("intValue", 30);
+        payload.ofPair("longValue", 40L);
+        payload.ofPair("floatValue", 50.5f);
+        payload.ofPair("doubleValue", 60.6);
+        payload.ofPair("charValue", 'A');
+        payload.ofPair("booleanValue", true);
+        payload.ofPair("stringValue", "test");
+        
+        DefaultFilter<Object> typeFilter = new DefaultFilter<>(payload);
+        
+        assertNotNull(typeFilter);
+        
+        // Test all types
+        assertEquals((byte) 10, typeFilter.getValue("byteValue"));
+        assertEquals((short) 20, typeFilter.getValue("shortValue"));
+        assertEquals(30, typeFilter.getValue("intValue"));
+        assertEquals(40L, typeFilter.getValue("longValue"));
+        assertEquals(50.5f, typeFilter.getValue("floatValue"));
+        assertEquals(60.6, typeFilter.getValue("doubleValue"));
+        assertEquals('A', typeFilter.getValue("charValue"));
+        assertEquals(true, typeFilter.getValue("booleanValue"));
+        assertEquals("test", typeFilter.getValue("stringValue"));
+        
+        // Test with type conversions
+        assertEquals(Byte.valueOf((byte) 10), typeFilter.getValue("byteValue", Byte.class));
+        assertEquals(Short.valueOf((short) 20), typeFilter.getValue("shortValue", Short.class));
+        assertEquals(Integer.valueOf(30), typeFilter.getValue("intValue", Integer.class));
+        assertEquals(Long.valueOf(40L), typeFilter.getValue("longValue", Long.class));
+        assertEquals(Float.valueOf(50.5f), typeFilter.getValue("floatValue", Float.class));
+        assertEquals(Double.valueOf(60.6), typeFilter.getValue("doubleValue", Double.class));
+        assertEquals(Character.valueOf('A'), typeFilter.getValue("charValue", Character.class));
+        assertTrue(typeFilter.getValue("booleanValue", Boolean.class));
+        assertEquals("test", typeFilter.getValue("stringValue", String.class));
+    }
+
 }

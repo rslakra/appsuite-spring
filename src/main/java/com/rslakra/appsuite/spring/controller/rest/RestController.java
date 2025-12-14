@@ -53,14 +53,14 @@ public interface RestController<T, ID extends Serializable> {
      * @param filter
      * @return
      */
-    public List<T> getByFilter(Filter filter);
+    public List<T> getByFilter(Filter<T> filter);
 
     /**
      * @param filter
      * @param pageable
      * @return
      */
-    public Page<T> getByFilter(Filter filter, Pageable pageable);
+    public Page<T> getByFilter(Filter<T> filter, Pageable pageable);
 
     /**
      * Returns the list of <code>T</code> filters objects.

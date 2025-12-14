@@ -41,7 +41,7 @@ public interface WebController<T, ID extends Serializable> {
      * @param filter
      * @return
      */
-    public String filter(Model model, Filter filter);
+    public String filter(Model model, Filter<T> filter);
 
     /**
      * @param model
