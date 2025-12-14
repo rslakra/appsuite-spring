@@ -178,6 +178,110 @@ public class DefaultFilterTest {
     }
 
     /**
+     * Tests the getLong convenience method.
+     *
+     * @return
+     */
+    @Test
+    public void testGetLong() {
+        assertNotNull(filter);
+        assertEquals(Long.valueOf(ZERO), filter.getLong(ID));
+        assertEquals(Long.valueOf(BIRTHDAY_VALUE), filter.getLong(BIRTHDAY));
+        assertEquals(BIRTHDAY_VALUE, filter.getLong(BIRTHDAY).longValue());
+        assertNull(filter.getLong(NO_KEY));
+    }
+
+    /**
+     * Tests the getBoolean convenience method.
+     *
+     * @return
+     */
+    @Test
+    public void testGetBoolean() {
+        assertNotNull(filter);
+        assertTrue(filter.getBoolean(IS_BRAVE));
+        assertTrue(filter.getBoolean(STATUS));
+        assertFalse(filter.getBoolean(NAME));
+        assertFalse(filter.getBoolean(NO_KEY));
+    }
+
+    /**
+     * Tests the getString convenience method.
+     *
+     * @return
+     */
+    @Test
+    public void testGetString() {
+        assertNotNull(filter);
+        // Test with existing String values
+        assertEquals(NAME_VALUE, filter.getString(NAME));
+        assertEquals(ZERO, filter.getString(ID));
+        assertEquals(TRUE, filter.getString(STATUS));
+        
+        // Test with missing key
+        assertNull(filter.getString(NO_KEY));
+        
+        // Test that non-String values throw ClassCastException
+        try {
+            filter.getString(BIRTHDAY);
+            assertTrue(false, "Should have thrown ClassCastException for Long value");
+        } catch (ClassCastException ex) {
+            assertTrue(ex.getMessage().contains("not an instance of return type"));
+        }
+        
+        try {
+            filter.getString(FUN_SCORE);
+            assertTrue(false, "Should have thrown ClassCastException for Integer value");
+        } catch (ClassCastException ex) {
+            assertTrue(ex.getMessage().contains("not an instance of return type"));
+        }
+        
+        try {
+            filter.getString(IS_BRAVE);
+            assertTrue(false, "Should have thrown ClassCastException for Boolean value");
+        } catch (ClassCastException ex) {
+            assertTrue(ex.getMessage().contains("not an instance of return type"));
+        }
+    }
+
+    /**
+     * Tests the getString method with various types and edge cases.
+     *
+     * @return
+     */
+    @Test
+    public void testGetStringWithVariousTypes() {
+        Payload<String, Object> payload = Payload.newBuilder();
+        payload.ofPair("stringValue", "test");
+        payload.ofPair("intValue", 123);
+        payload.ofPair("longValue", 456L);
+        payload.ofPair("doubleValue", 789.5);
+        payload.ofPair("booleanValue", true);
+        payload.ofPair("nullValue", null);
+        
+        DefaultFilter<Object> typeFilter = new DefaultFilter<>(payload);
+        
+        assertNotNull(typeFilter);
+        
+        // Test String value
+        assertEquals("test", typeFilter.getString("stringValue"));
+        
+        // Test numeric values converted to String
+        assertEquals("123", typeFilter.getString("intValue"));
+        assertEquals("456", typeFilter.getString("longValue"));
+        assertEquals("789.5", typeFilter.getString("doubleValue"));
+        
+        // Test Boolean value converted to String
+        assertEquals("true", typeFilter.getString("booleanValue"));
+        
+        // Test null value
+        assertNull(typeFilter.getString("nullValue"));
+        
+        // Test missing key
+        assertNull(typeFilter.getString("missingKey"));
+    }
+
+    /**
      * Tests that when a key doesn't exist, Boolean.class returns Boolean.FALSE,
      * but Object.class returns null (not Boolean.FALSE).
      *
@@ -359,6 +463,450 @@ public class DefaultFilterTest {
         assertEquals(Character.valueOf('A'), typeFilter.getValue("charValue", Character.class));
         assertTrue(typeFilter.getValue("booleanValue", Boolean.class));
         assertEquals("test", typeFilter.getValue("stringValue", String.class));
+    }
+
+    /**
+     * Tests the apply method with matching filter criteria.
+     *
+     * @return
+     */
+    @Test
+    public void testApplyWithMatchingCriteria() {
+        // Create a filter with specific criteria
+        Payload<String, Object> userPayload = Payload.newBuilder();
+        userPayload.ofPair("id", 1L);
+        userPayload.ofPair("name", "Roh Lak");
+        userPayload.ofPair("email", "rslakra@lakra.com");
+        userPayload.ofPair("age", 30);
+        userPayload.ofPair("active", true);
+        
+        DefaultFilter<TestUser> userFilter = new DefaultFilter<>(userPayload);
+        
+        // Create a user that matches all criteria
+        TestUser matchingUser = new TestUser(1L, "Roh Lak", "rslakra@lakra.com", 30, true);
+        assertTrue(userFilter.apply(matchingUser), "User matching all criteria should return true");
+        
+        // Create a filter with partial criteria
+        Payload<String, Object> partialPayload = Payload.newBuilder();
+        partialPayload.ofPair("id", 1L);
+        partialPayload.ofPair("active", true);
+        
+        DefaultFilter<TestUser> partialFilter = new DefaultFilter<>(partialPayload);
+        assertTrue(partialFilter.apply(matchingUser), "User matching partial criteria should return true");
+    }
+
+    /**
+     * Tests the apply method with non-matching filter criteria.
+     *
+     * @return
+     */
+    @Test
+    public void testApplyWithNonMatchingCriteria() {
+        Payload<String, Object> userPayload = Payload.newBuilder();
+        userPayload.ofPair("id", 1L);
+        userPayload.ofPair("name", "Roh Lak");
+        userPayload.ofPair("email", "rslakra@lakra.com");
+        userPayload.ofPair("age", 30);
+        userPayload.ofPair("active", true);
+        
+        DefaultFilter<TestUser> userFilter = new DefaultFilter<>(userPayload);
+        
+        // Create users that don't match
+        TestUser wrongId = new TestUser(2L, "Roh Lak", "rslakra@lakra.com", 30, true);
+        assertFalse(userFilter.apply(wrongId), "User with wrong id should return false");
+        
+        TestUser wrongName = new TestUser(1L, "Jane Doe", "rslakra@lakra.com", 30, true);
+        assertFalse(userFilter.apply(wrongName), "User with wrong name should return false");
+        
+        TestUser wrongEmail = new TestUser(1L, "Roh Lak", "different@email.com", 30, true);
+        assertFalse(userFilter.apply(wrongEmail), "User with wrong email should return false");
+        
+        TestUser wrongAge = new TestUser(1L, "Roh Lak", "rslakra@lakra.com", 25, true);
+        assertFalse(userFilter.apply(wrongAge), "User with wrong age should return false");
+        
+        TestUser wrongActive = new TestUser(1L, "Roh Lak", "rslakra@lakra.com", 30, false);
+        assertFalse(userFilter.apply(wrongActive), "User with wrong active status should return false");
+    }
+
+    /**
+     * Tests the apply method with null element.
+     *
+     * @return
+     */
+    @Test
+    public void testApplyWithNullElement() {
+        Payload<String, Object> userPayload = Payload.newBuilder();
+        userPayload.ofPair("id", 1L);
+        userPayload.ofPair("name", "Roh Lak");
+        
+        DefaultFilter<TestUser> userFilter = new DefaultFilter<>(userPayload);
+        
+        assertFalse(userFilter.apply(null), "Null element should return false");
+    }
+
+    /**
+     * Tests the apply method with empty payload.
+     *
+     * @return
+     */
+    @Test
+    public void testApplyWithEmptyPayload() {
+        Payload<String, Object> emptyPayload = Payload.newBuilder();
+        DefaultFilter<TestUser> emptyFilter = new DefaultFilter<>(emptyPayload);
+        
+        TestUser anyUser = new TestUser(1L, "Roh Lak", "rslakra@lakra.com", 30, true);
+        assertTrue(emptyFilter.apply(anyUser), "Empty payload should match all elements");
+        
+        // Null element should still return false even with empty payload (null check happens first)
+        assertFalse(emptyFilter.apply(null), "Null element should return false even with empty payload");
+    }
+
+    /**
+     * Tests the apply method with TestProduct.
+     *
+     * @return
+     */
+    @Test
+    public void testApplyWithTestProduct() {
+        Payload<String, Object> productPayload = Payload.newBuilder();
+        productPayload.ofPair("productId", "P001");
+        productPayload.ofPair("productName", "Test Product");
+        productPayload.ofPair("quantity", 10);
+        productPayload.ofPair("inStock", true);
+        
+        DefaultFilter<TestProduct> productFilter = new DefaultFilter<>(productPayload);
+        
+        // Matching product
+        TestProduct matchingProduct = new TestProduct("P001", "Test Product", null, 10, null, true);
+        assertTrue(productFilter.apply(matchingProduct), "Product matching all criteria should return true");
+        
+        // Non-matching product
+        TestProduct nonMatchingProduct = new TestProduct("P002", "Test Product", null, 10, null, true);
+        assertFalse(productFilter.apply(nonMatchingProduct), "Product with wrong id should return false");
+        
+        TestProduct wrongQuantity = new TestProduct("P001", "Test Product", null, 20, null, true);
+        assertFalse(productFilter.apply(wrongQuantity), "Product with wrong quantity should return false");
+    }
+
+    /**
+     * Tests the apply method with single criterion.
+     *
+     * @return
+     */
+    @Test
+    public void testApplyWithSingleCriterion() {
+        Payload<String, Object> singlePayload = Payload.newBuilder();
+        singlePayload.ofPair("id", 1L);
+        
+        DefaultFilter<TestUser> singleFilter = new DefaultFilter<>(singlePayload);
+        
+        TestUser matchingUser = new TestUser(1L, "Any Name", "any@email.com", 25, false);
+        assertTrue(singleFilter.apply(matchingUser), "User matching single criterion should return true");
+        
+        TestUser nonMatchingUser = new TestUser(2L, "Any Name", "any@email.com", 25, false);
+        assertFalse(singleFilter.apply(nonMatchingUser), "User not matching single criterion should return false");
+    }
+
+    /**
+     * Tests the apply method with missing property on element.
+     *
+     * @return
+     */
+    @Test
+    public void testApplyWithMissingProperty() {
+        Payload<String, Object> payload = Payload.newBuilder();
+        payload.ofPair("nonExistentProperty", "value");
+        
+        DefaultFilter<TestUser> filter = new DefaultFilter<>(payload);
+        
+        TestUser user = new TestUser(1L, "Roh Lak", "rslakra@lakra.com", 30, true);
+        assertFalse(filter.apply(user), "Element missing required property should return false");
+    }
+
+    /**
+     * Tests the rebuild method with Payload parameters.
+     *
+     * @return
+     */
+    @Test
+    public void testRebuildWithPayload() {
+        // Create initial filter
+        Payload<String, Object> initialPayload = Payload.newBuilder();
+        initialPayload.ofPair("id", 1L);
+        initialPayload.ofPair("name", "Initial Name");
+        initialPayload.ofPair("active", true);
+        
+        DefaultFilter<TestUser> filter = new DefaultFilter<>(initialPayload);
+        
+        // Verify initial state
+        assertTrue(filter.hasKey("id"));
+        assertTrue(filter.hasKey("name"));
+        assertTrue(filter.hasKey("active"));
+        assertEquals(1L, filter.getValue("id"));
+        assertEquals("Initial Name", filter.getValue("name"));
+        assertEquals(true, filter.getValue("active"));
+        
+        // Create test user matching initial criteria
+        TestUser initialUser = new TestUser(1L, "Initial Name", "initial@email.com", 30, true);
+        assertTrue(filter.apply(initialUser), "User should match initial criteria");
+        
+        // Rebuild with new Payload
+        Payload<String, Object> newPayload = Payload.newBuilder();
+        newPayload.ofPair("id", 2L);
+        newPayload.ofPair("email", "new@email.com");
+        newPayload.ofPair("age", 25);
+        
+        filter.rebuild(newPayload);
+        
+        // Verify old criteria are cleared
+        assertFalse(filter.hasKey("name"), "Old criteria should be cleared");
+        assertFalse(filter.hasKey("active"), "Old criteria should be cleared");
+        
+        // Verify new criteria are set
+        assertTrue(filter.hasKey("id"));
+        assertTrue(filter.hasKey("email"));
+        assertTrue(filter.hasKey("age"));
+        assertEquals(2L, filter.getValue("id"));
+        assertEquals("new@email.com", filter.getValue("email"));
+        assertEquals(25, filter.getValue("age"));
+        
+        // Verify filter works with new criteria
+        TestUser newUser = new TestUser(2L, "Any Name", "new@email.com", 25, false);
+        assertTrue(filter.apply(newUser), "User should match new criteria");
+        
+        TestUser nonMatchingUser = new TestUser(1L, "Any Name", "new@email.com", 25, false);
+        assertFalse(filter.apply(nonMatchingUser), "User with wrong id should not match");
+    }
+
+    /**
+     * Tests the rebuild method with Map parameters.
+     *
+     * @return
+     */
+    @Test
+    public void testRebuildWithMap() {
+        // Create initial filter
+        Payload<String, Object> initialPayload = Payload.newBuilder();
+        initialPayload.ofPair("id", 1L);
+        initialPayload.ofPair("name", "Initial Name");
+        
+        DefaultFilter<TestUser> filter = new DefaultFilter<>(initialPayload);
+        
+        // Verify initial state
+        assertTrue(filter.hasKey("id"));
+        assertTrue(filter.hasKey("name"));
+        assertEquals(1L, filter.getValue("id"));
+        assertEquals("Initial Name", filter.getValue("name"));
+        
+        // Rebuild with new Map
+        java.util.Map<String, Object> newMap = new java.util.HashMap<>();
+        newMap.put("id", 3L);
+        newMap.put("name", "New Name");
+        newMap.put("active", false);
+        
+        filter.rebuild(newMap);
+        
+        // Verify new criteria are set
+        assertTrue(filter.hasKey("id"));
+        assertTrue(filter.hasKey("name"));
+        assertTrue(filter.hasKey("active"));
+        assertEquals(3L, filter.getValue("id"));
+        assertEquals("New Name", filter.getValue("name"));
+        assertEquals(false, filter.getValue("active"));
+        
+        // Verify filter works with new criteria
+        TestUser matchingUser = new TestUser(3L, "New Name", "any@email.com", 30, false);
+        assertTrue(filter.apply(matchingUser), "User should match new criteria");
+        
+        TestUser nonMatchingUser = new TestUser(3L, "Different Name", "any@email.com", 30, false);
+        assertFalse(filter.apply(nonMatchingUser), "User with wrong name should not match");
+    }
+
+    /**
+     * Tests the rebuild method with null Payload.
+     *
+     * @return
+     */
+    @Test
+    public void testRebuildWithNullPayload() {
+        // Create initial filter
+        Payload<String, Object> initialPayload = Payload.newBuilder();
+        initialPayload.ofPair("id", 1L);
+        initialPayload.ofPair("name", "Initial Name");
+        
+        DefaultFilter<TestUser> filter = new DefaultFilter<>(initialPayload);
+        
+        // Verify initial state
+        assertTrue(filter.hasKey("id"));
+        assertTrue(filter.hasKey("name"));
+        
+        // Rebuild with null
+        filter.rebuild((Payload<String, Object>) null);
+        
+        // Verify payload is cleared
+        assertFalse(filter.hasKey("id"), "Payload should be cleared");
+        assertFalse(filter.hasKey("name"), "Payload should be cleared");
+        assertNull(filter.getValue("id"), "Filter should be empty after rebuilding with null");
+        
+        // Empty filter should match all elements
+        TestUser anyUser = new TestUser(1L, "Any Name", "any@email.com", 30, true);
+        assertTrue(filter.apply(anyUser), "Empty filter should match all elements");
+    }
+
+    /**
+     * Tests the rebuild method with null Map.
+     *
+     * @return
+     */
+    @Test
+    public void testRebuildWithNullMap() {
+        // Create initial filter
+        Payload<String, Object> initialPayload = Payload.newBuilder();
+        initialPayload.ofPair("id", 1L);
+        initialPayload.ofPair("name", "Initial Name");
+        
+        DefaultFilter<TestUser> filter = new DefaultFilter<>(initialPayload);
+        
+        // Verify initial state
+        assertTrue(filter.hasKey("id"));
+        assertTrue(filter.hasKey("name"));
+        
+        // Rebuild with null Map
+        filter.rebuild((java.util.Map<String, Object>) null);
+        
+        // Verify payload is cleared
+        assertFalse(filter.hasKey("id"), "Payload should be cleared");
+        assertFalse(filter.hasKey("name"), "Payload should be cleared");
+        assertNull(filter.getValue("id"), "Filter should be empty after rebuilding with null");
+    }
+
+    /**
+     * Tests the rebuild method with empty Payload.
+     *
+     * @return
+     */
+    @Test
+    public void testRebuildWithEmptyPayload() {
+        // Create initial filter
+        Payload<String, Object> initialPayload = Payload.newBuilder();
+        initialPayload.ofPair("id", 1L);
+        initialPayload.ofPair("name", "Initial Name");
+        
+        DefaultFilter<TestUser> filter = new DefaultFilter<>(initialPayload);
+        
+        // Verify initial state
+        assertTrue(filter.hasKey("id"));
+        assertTrue(filter.hasKey("name"));
+        
+        // Rebuild with empty Payload
+        Payload<String, Object> emptyPayload = Payload.newBuilder();
+        filter.rebuild(emptyPayload);
+        
+        // Verify payload is cleared
+        assertFalse(filter.hasKey("id"), "Payload should be cleared");
+        assertFalse(filter.hasKey("name"), "Payload should be cleared");
+        assertNull(filter.getValue("id"), "Filter should be empty");
+        
+        // Empty filter should match all elements
+        TestUser anyUser = new TestUser(1L, "Any Name", "any@email.com", 30, true);
+        assertTrue(filter.apply(anyUser), "Empty filter should match all elements");
+    }
+
+    /**
+     * Tests the rebuild method with empty Map.
+     *
+     * @return
+     */
+    @Test
+    public void testRebuildWithEmptyMap() {
+        // Create initial filter
+        Payload<String, Object> initialPayload = Payload.newBuilder();
+        initialPayload.ofPair("id", 1L);
+        initialPayload.ofPair("name", "Initial Name");
+        
+        DefaultFilter<TestUser> filter = new DefaultFilter<>(initialPayload);
+        
+        // Verify initial state
+        assertTrue(filter.hasKey("id"));
+        assertTrue(filter.hasKey("name"));
+        
+        // Rebuild with empty Map
+        java.util.Map<String, Object> emptyMap = new java.util.HashMap<>();
+        filter.rebuild(emptyMap);
+        
+        // Verify payload is cleared
+        assertFalse(filter.hasKey("id"), "Payload should be cleared");
+        assertFalse(filter.hasKey("name"), "Payload should be cleared");
+        assertNull(filter.getValue("id"), "Filter should be empty");
+    }
+
+    /**
+     * Tests multiple rebuilds to ensure filter can be reused multiple times.
+     *
+     * @return
+     */
+    @Test
+    public void testMultipleRebuilds() {
+        // Create initial filter
+        Payload<String, Object> payload1 = Payload.newBuilder();
+        payload1.ofPair("id", 1L);
+        
+        DefaultFilter<TestUser> filter = new DefaultFilter<>(payload1);
+        
+        TestUser user1 = new TestUser(1L, "Name1", "email1@test.com", 30, true);
+        assertTrue(filter.apply(user1), "Should match first criteria");
+        
+        // First rebuild
+        Payload<String, Object> payload2 = Payload.newBuilder();
+        payload2.ofPair("id", 2L);
+        payload2.ofPair("name", "Name2");
+        
+        filter.rebuild(payload2);
+        
+        TestUser user2 = new TestUser(2L, "Name2", "email2@test.com", 25, false);
+        assertTrue(filter.apply(user2), "Should match second criteria");
+        assertFalse(filter.apply(user1), "Should not match first user anymore");
+        
+        // Second rebuild with Map
+        java.util.Map<String, Object> map3 = new java.util.HashMap<>();
+        map3.put("email", "email3@test.com");
+        map3.put("active", true);
+        
+        filter.rebuild(map3);
+        
+        TestUser user3 = new TestUser(3L, "Name3", "email3@test.com", 20, true);
+        assertTrue(filter.apply(user3), "Should match third criteria");
+        assertFalse(filter.apply(user2), "Should not match second user anymore");
+        assertFalse(filter.apply(user1), "Should not match first user anymore");
+    }
+
+    /**
+     * Tests rebuild with TestProduct to ensure it works with different types.
+     *
+     * @return
+     */
+    @Test
+    public void testRebuildWithTestProduct() {
+        // Create initial filter
+        Payload<String, Object> initialPayload = Payload.newBuilder();
+        initialPayload.ofPair("productId", "P001");
+        initialPayload.ofPair("quantity", 10);
+        
+        DefaultFilter<TestProduct> filter = new DefaultFilter<>(initialPayload);
+        
+        TestProduct product1 = new TestProduct("P001", "Product 1", null, 10, null, true);
+        assertTrue(filter.apply(product1), "Product should match initial criteria");
+        
+        // Rebuild with new criteria
+        Payload<String, Object> newPayload = Payload.newBuilder();
+        newPayload.ofPair("productId", "P002");
+        newPayload.ofPair("inStock", true);
+        
+        filter.rebuild(newPayload);
+        
+        TestProduct product2 = new TestProduct("P002", "Product 2", null, 20, null, true);
+        assertTrue(filter.apply(product2), "Product should match new criteria");
+        assertFalse(filter.apply(product1), "Product should not match old criteria");
     }
 
 }

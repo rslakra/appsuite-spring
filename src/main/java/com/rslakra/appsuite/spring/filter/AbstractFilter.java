@@ -29,7 +29,7 @@ public abstract class AbstractFilter<E> implements Filter<E> {
      *
      * @param allParams
      */
-    public AbstractFilter(final Payload<String, Object> allParams) {
+    public AbstractFilter(Payload<String, Object> allParams) {
         payload = Payload.newBuilder().ofPayload(allParams);
     }
 
@@ -38,7 +38,7 @@ public abstract class AbstractFilter<E> implements Filter<E> {
      *
      * @param allParams
      */
-    public AbstractFilter(final Map<String, Object> allParams) {
+    public AbstractFilter(Map<String, Object> allParams) {
         payload = Payload.newBuilder(allParams);
     }
 
@@ -50,6 +50,57 @@ public abstract class AbstractFilter<E> implements Filter<E> {
      */
     private <T> String errorMessage(Object value, Class<T> classType) {
         return String.format(INVALID_TYPE_MESSAGE, value, value.getClass(), classType);
+    }
+
+    /**
+     * Applies the filter on the provided <code>E</code>.
+     * <p>
+     * This implementation checks if the element matches all filter criteria defined in the payload.
+     * For each key-value pair in the filter payload, it extracts the corresponding property from
+     * the element and compares it with the filter value. Returns true only if all criteria match.
+     * </p>
+     * <p>
+     * If the element is null, returns false. If the payload is empty, returns true (no criteria means all match).
+     * If a property doesn't exist on the element or cannot be read, that criterion is considered a mismatch.
+     * </p>
+     *
+     * @param e the element to filter
+     * @return true if the element matches all filter criteria, false otherwise
+     */
+    @Override
+    public boolean apply(E e) {
+        // Null element doesn't match any filter
+        if (BeanUtils.isNull(e)) {
+            return false;
+        }
+
+        // Empty payload means no filter criteria, so everything matches
+        if (payload.isEmpty()) {
+            return true;
+        }
+
+        // Check each filter criterion
+        for (Map.Entry<String, Object> entry : payload.entrySet()) {
+            String key = entry.getKey();
+            Object filterValue = entry.getValue();
+
+            try {
+                // Try to read the property from the element
+                Object elementValue = BeanUtils.readObjectProperty(e, key);
+
+                // Compare values using BeanUtils.equals which handles null, BigDecimal, Date, etc.
+                if (!BeanUtils.equals(elementValue, filterValue)) {
+                    return false;
+                }
+            } catch (Exception ex) {
+                // Property doesn't exist or cannot be read - consider it a mismatch
+                // This handles cases where the element doesn't have the property
+                return false;
+            }
+        }
+
+        // All criteria matched
+        return true;
     }
 
     /**
@@ -87,18 +138,26 @@ public abstract class AbstractFilter<E> implements Filter<E> {
     }
 
     /**
-     * Returns the value of the provided <code>key</code> as the type of <code>E</code>.
+     * Returns the value of the provided <code>key</code> as the specified type <code>T</code>.
+     * <p>
+     * If the key exists and the value can be cast or converted to the requested type, it is returned.
+     * If the key doesn't exist and the requested type is Boolean (or a supertype of Boolean), 
+     * returns Boolean.FALSE. Otherwise, returns null.
+     * </p>
      *
-     * @param keyName
-     * @param classType
-     * @param <T>
-     * @return
-     * @throws ClassCastException
+     * @param keyName   the key name
+     * @param classType the target class type
+     * @param <T>       the return type (method-level generic to avoid shadowing class-level generic E)
+     * @return the value cast/converted to type T, or Boolean.FALSE for missing Boolean keys, or null
+     * @throws ClassCastException if the value cannot be converted to the requested type
      */
     @Override
     public <T> T getValue(String keyName, Class<T> classType) {
         if (hasKey(keyName)) {
             Object value = getValue(keyName);
+            if (value == null) {
+                return null;
+            }
             if (BeanUtils.isKindOf(value, classType)) {
                 return classType.cast(value);
             } else if (BeanUtils.isPrimitive(classType)) {
@@ -110,7 +169,77 @@ public abstract class AbstractFilter<E> implements Filter<E> {
             return (T) Boolean.FALSE;
         }
 
-        return (T) null;
+        return null;
+    }
+
+    /**
+     * Returns the value of the provided <code>key</code> as a <code>Long</code>.
+     *
+     * @param keyName the key name
+     * @return the Long value, or null if the key doesn't exist
+     */
+    @Override
+    public Long getLong(String keyName) {
+        return getValue(keyName, Long.class);
+    }
+
+    /**
+     * Returns the value of the provided <code>key</code> as a <code>boolean</code>.
+     * <p>
+     * If the key doesn't exist, returns false (as per the default behavior for Boolean types).
+     * </p>
+     *
+     * @param keyName the key name
+     * @return the boolean value, or false if the key doesn't exist
+     */
+    @Override
+    public boolean getBoolean(String keyName) {
+        return getValue(keyName, Boolean.class);
+    }
+
+    /**
+     * Returns the value of the provided <code>key</code> as a <code>String</code>.
+     *
+     * @param keyName the key name
+     * @return the String value, or null if the key doesn't exist
+     */
+    @Override
+    public String getString(String keyName) {
+        return getValue(keyName, String.class);
+    }
+
+    /**
+     * Rebuilds the filter with the provided <code>Payload<String, Object></code> params.
+     * <p>
+     * This method allows reusing the same filter object with different filter criteria.
+     * The existing payload is cleared and repopulated with the new parameters.
+     * </p>
+     *
+     * @param allParams the new filter parameters
+     */
+    @Override
+    public void rebuild(Payload<String, Object> allParams) {
+        payload.clear();
+        if (BeanUtils.isNotNull(allParams)) {
+            payload.putAll(allParams);
+        }
+    }
+
+    /**
+     * Rebuilds the filter with the provided <code>Map<String, Object></code> params.
+     * <p>
+     * This method allows reusing the same filter object with different filter criteria.
+     * The existing payload is cleared and repopulated with the new parameters.
+     * </p>
+     *
+     * @param allParams the new filter parameters
+     */
+    @Override
+    public void rebuild(Map<String, Object> allParams) {
+        payload.clear();
+        if (BeanUtils.isNotNull(allParams)) {
+            payload.putAll(allParams);
+        }
     }
 
 }
