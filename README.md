@@ -52,4 +52,3 @@ Key dependency versions:
 - Lombok: 1.18.42
 - Guava: 33.5.0-jre
 - JUnit Jupiter: 6.0.1
-
